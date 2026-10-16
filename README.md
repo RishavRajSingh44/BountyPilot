@@ -6,6 +6,8 @@ BountyPilot helps independent developers and freelancers search real public GitH
 
 A single Next.js application, a local SQLite database, and Ollama. No mandatory AI subscription, paid inference API, account, or Python backend.
 
+**AI decision for the Hacktoberfest submission:** Gemma 3 4B is the primary/default model; Ollama is the runtime that loads it and serves local inference. Ollama is not the model, and Gemma is distinct from the Gemini API. The existing `InferenceProvider` interface stays in place; Gemini, OpenAI and other cloud-provider integrations are deferred until after submission. No paid-provider fallback is implemented. Gemma 3 1B remains experimental after failing all 12 grounding checks.
+
 ## Screenshots
 
 Actual application captures from October 16, 2026, using public GitHub issues and installed local Gemma. Issue titles contain authors' unverified reward claims; they are not BountyPilot earnings or endorsements. Views are bounded to omit personal contact details. See [capture provenance](docs/images/README.md).
@@ -44,6 +46,8 @@ The project is open so developers can inspect how opportunities are ranked, chal
 Local inference lets selected excerpts and skills remain on your computer when Ollama is local. SQLite is local plaintext, not encrypted or protected from other applications running as you. Search/detail refresh needs internet and GitHub's REST API. After installation and model download, retained evidence, the pipeline and analysis of a retained snapshot work offline with local Ollama; fresh discovery, refresh, installation and downloads require connectivity. Offline behavior has configuration-dependent limits; see verification evidence.
 
 **Gemma is a separately licensed open-weight model, not AGPL/MIT application code or an OSI-approved model license.** Users obtain weights through Ollama and accept [Gemma terms](https://ai.google.dev/gemma/terms). We do not redistribute weights. Optional remote Ollama sends excerpts and skills to the configured operator. There is no automatic cloud fallback. Public GitHub content keeps its original authors' rights.
+
+The three components have separate terms: BountyPilot's original code is AGPL-3.0-only, the external Ollama runtime is [MIT licensed](https://github.com/ollama/ollama/blob/main/LICENSE), and Gemma weights use Google's model terms. Neither Ollama binaries nor model weights are included in this source repository.
 
 ## Technology stack and architecture
 
@@ -197,7 +201,7 @@ Expect `ok` and no foreign-key rows, then inspect Pipeline. Diagnose errors; nev
 
 ## Roadmap
 
-Evaluate verified paid-opportunity integrations, opt-in notifications, optional Gemini/OpenAI APIs with explicit consent, improved low-resource inference, native platform validation and user-feedback improvements. These are proposals, not implemented features or deadline promises. Keep local Gemma central to the [Hacktoberfest demonstration](docs/HACKTOBERFEST_STRATEGY.md).
+Before submission, focus on the local Gemma demo, source/CI verification and reviewed DEV write-up. **After submission**, evaluate optional Gemini, OpenAI and other AI-provider APIs with explicit consent; keep Gemma/Ollama as the default and preserve the existing provider boundary. Other roadmap candidates are verified paid-opportunity integrations, opt-in notifications, improved low-resource inference, native platform validation and user-feedback improvements. These are proposals, not implemented features or deadline promises. Keep local Gemma central to the [Hacktoberfest demonstration](docs/HACKTOBERFEST_STRATEGY.md).
 
 ## Community
 

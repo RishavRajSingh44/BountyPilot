@@ -2,6 +2,8 @@
 
 Status: implementation approved October 16, 2026; portability revision follows the user's subsequent instruction. See IMPLEMENTATION_PROGRESS.md for actual verified work.
 
+October 17 product decision: the Hacktoberfest submission uses **Gemma 3 4B via Ollama** as its primary/default AI path. Preserve the existing provider interface and working inference behavior; Gemini, OpenAI and all other cloud-AI integrations are post-submission only. Gemma 3 1B remains experimental after failed grounding evaluations. GitHub source publication and CI are complete; demo/DEV preparation continues, with media/article publication and any release/deployment requiring separate explicit approval.
+
 ## 1. Product and problem
 
 BountyPilot helps an individual developer find public GitHub issues that may offer paid work, understand the work using local Gemma, inspect the supporting sources and unknowns, and maintain a private saved pipeline.
@@ -145,4 +147,4 @@ MVP Definition of Done:
 - License, contribution, privacy and security notes exist after implementation approval; no credentials, local database, or model weights are committed.
 - Demo recording and submission material are ready; publication remains a distinct user-authorized action.
 
-The user has approved implementation. Continue by verified milestone, including the revised portability requirements. Publishing remains unauthorized. Cross-platform support is a target until tested; no low-memory claim follows from measurements on the development machine.
+The user approved implementation and subsequently approved public GitHub source publication, which is complete. Demo-upload/article/release/deployment authorization remains separate. Automated Linux/macOS/Windows CI passed; interactive Gemma workflows on Windows/Linux and low-memory hardware remain unverified. No minimum-hardware claim follows from measurements on the development machine.

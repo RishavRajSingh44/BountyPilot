@@ -23,6 +23,12 @@ Keep font/icon notices available when serving the UI. The local Legal page rende
 
 ## Models and external content
 
-Gemma 3 weights are separately downloaded by the user and governed by [Gemma terms](https://ai.google.dev/gemma/terms), including applicable hosted-service/use conditions. They are open-weight, not the application's AGPL license or an OSI-approved software license. No weights are included or authorized for redistribution. Ollama is a separate installed process; its own notices apply if redistributing it. No Ollama binaries are included.
+| Component | Role and separate terms |
+| --- | --- |
+| BountyPilot original code | Application and validation/persistence logic; [AGPL-3.0-only](LICENSE), copyright (c) 2026 Rishav Raj Singh |
+| Ollama | External inference runtime that loads/serves the model; [MIT license, copyright (c) Ollama](https://github.com/ollama/ollama/blob/main/LICENSE). Preserve its license and bundled-component notices if separately redistributing that runtime. No Ollama binaries are included here |
+| Gemma 3 | Google's model weights used for analysis; separately downloaded by the user under [Gemma terms](https://ai.google.dev/gemma/terms), including applicable use/distribution/hosted-service conditions. Open-weight, not AGPL/MIT application code or an OSI-approved software license. No weights are included or authorized for redistribution |
+
+Ollama's software license does not relicense the models it runs. Gemma is distinct from the Gemini API; BountyPilot's submission uses local Gemma 3 4B through Ollama, not a proprietary inference API.
 
 GitHub issue titles, descriptions and comments retain their authors' and repositories' rights. Public availability and API access do not grant blanket permission to relicense them. Use minimal attributed excerpts, preserve source links and obtain rights for any dataset redistribution. Synthetic automated fixtures are labeled as such. Personal SQLite snapshots, raw model outputs, private recordings and credentials are excluded.

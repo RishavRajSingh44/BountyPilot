@@ -2,6 +2,8 @@
 
 Status: implementation approved October 16, 2026. Portability revision is authorized by the subsequent user instruction. Paths are relative to the project; actual status is in IMPLEMENTATION_PROGRESS.md.
 
+October 17 submission freeze: keep Gemma 3 4B/Ollama and `InferenceProvider` unchanged. Do not add a provider registry, Gemini/OpenAI/other cloud adapters or AI refactoring before submission. Cloud adapters are post-submission roadmap items. Source publication and six-job CI verification have completed; remaining authorized work is reviewed local demo/submission preparation, without automatic media/article publication, deployment or GitHub Release creation.
+
 ## 1. Working agreement
 
 The user has said **“Approve the plan. Start implementation.”** Execute M1–M6 in order, including the revised portability/configuration checks. At each milestone, run its relevant checks, fix failures, and report files changed, actual commands/results, any remaining blocker and the next milestone. Do not treat a fixture-only flow as completion of the real GitHub/local Gemma journey. Approval does not make optional P1/P2 work part of the MVP or authorize publication, messaging, purchases, or unrestricted filesystem changes.

@@ -121,3 +121,15 @@ Git history scan found no credential patterns, compared local secret values, per
 Verdict: source candidate prepared with disclosed inference failures and publication prerequisites. Keep Gemma as the default and retain human evidence review. Do not publish an operational-reliability guarantee.
 
 Not checked: exhaustive copied-code provenance, binary-by-binary licensing/source offers, employer agreements beyond the owner's confirmation, formal accessibility/penetration testing, native Windows/Linux, lower-memory hardware, live secure remote Ollama, or GitHub CI/rendering before publication. No speculative provider/framework/authentication infrastructure was added.
+
+## October 17 AI decision documentation and demo review — Ponytail FULL
+
+What this change does: records the owner's unchanged default Gemma 3 4B/Ollama decision and defers all cloud AI adapters until after submission. Updates stale publication/CI claims, separates application/runtime/model licensing and prepares an explicitly historical screenshot walkthrough with a reviewable DEV draft. Assumed application load remains one trusted local user/process; no application behavior changes.
+
+Read the existing provider interface, Ollama transport/readiness/default selection, example configuration and connected planning/README/notices/submission docs. The existing adapter satisfies the decision; no registry, SDK, dependency, schema/cache migration or runtime refactor is needed. 1B's failed grounding gate remains visible. The separate opt-in remote Ollama setting is preserved without claiming a live-verified remote/cloud provider.
+
+Review found and corrected stale repository-publication prerequisites and missing explicit post-submission timing for optional cloud APIs. License links were checked against the actual upstream MIT/runtime and Gemma terms, without relabeling Gemma as OSI-approved software. The draft records both actual 4B successes and rejected analyses, does not invent customers/revenue and names Best Use of Gemma without guaranteeing eligibility. Original raw recordings remain excluded. Media probe assertions, full decode and seven sampled scene frames were checked; captions avoid implying still images are a new live journey or benchmark.
+
+Verdict: ship the documentation decision; no application refactor or repeated model evaluation is justified by this change. Run whitespace/relative-link/secret checks before committing; existing published CI is evidence for the unchanged runtime, not a new test run for these docs. Uploading the local preview and publishing the exact article remain separate approval steps.
+
+Not checked: full interactive video playback, fresh inference, external user feedback, entrant personal eligibility, low-memory/other-OS Gemma or live secured-remote performance. No unresolved critical/high finding in this documentation/media scope; no exhaustive whole-repository reaudit is claimed for this follow-up.

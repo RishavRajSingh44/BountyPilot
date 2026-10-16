@@ -1,6 +1,14 @@
 # BountyPilot — Hacktoberfest and Open-Source Strategy
 
-Status: planning only. Official sources read October 16, 2026; recheck before submission. No repository or DEV post has been published by this planning work.
+Status: source published and CI verified; demo and DEV submission preparation in progress. Official challenge, template and rules rechecked October 17, 2026; recheck at publication. Public code: [BountyPilot](https://github.com/RishavRajSingh44/BountyPilot). No DEV post, release or deployment has been published.
+
+## Final AI decision — October 17
+
+**Gemma 3 4B through Ollama remains the primary/default AI engine and the demonstration path.** Gemma is Google's open-weight model; Ollama is the separate runtime loading and serving it locally. This uses neither the Gemini API nor an OpenAI API. Keep the existing `InferenceProvider` seam and functioning adapter without refactoring. Gemini, OpenAI and all other cloud-provider integrations are explicitly **post-submission** roadmap items. No automatic paid-provider fallback. The existing user-configured secured remote-Ollama option is unchanged and is not the primary demo.
+
+Gemma 3 1B remains selectable but experimental: all 12 grounded evaluation cases failed validation. Do not describe it as a proven low-memory replacement. BountyPilot original code is AGPL-3.0-only; Ollama has its separate MIT license; Gemma weights use Google's separate terms. See [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md). Local inference offers user control without mandatory commercial API billing; hardware, setup, electricity and internet discovery still have costs.
+
+The official challenge lists local use for **Best Use of Gemma**. This design matches that technical category description; it does not establish entrant eligibility or guarantee acceptance/a prize. Preserve a factual explanation and source/model licensing distinction in the DEV draft.
 
 ## 1. Verified challenge facts
 
@@ -62,7 +70,7 @@ Measure task completion/time and confusion about paid claims. Record setup effor
 
 ## 6. Open-source contribution and release approach
 
-After approval, add AGPL-3.0-only LICENSE for original app code; README with architecture/setup/test commands and model/storage privacy limits; CONTRIBUTING with small reproducible changes; SECURITY with responsible reporting guidance. Keep GitHub/model terms separate, retain upstream notices and attribute non-trivial reused work. Do not bundle Gemma weights, real private data or unlicensed full discussion fixtures.
+The approved public source includes AGPL-3.0-only LICENSE for original app code, README architecture/setup/test commands and privacy limits, CONTRIBUTING, SECURITY and retained notices. Preserve these, keep application/Ollama/Gemma terms separate and attribute non-trivial reused work. Do not bundle Gemma weights, real private data or unlicensed full discussion fixtures.
 
 Use one package lockfile and pinned runtime, small readable modules and synthetic tests so contributors can work without GPU/model downloads. Label focused issues such as a missing error fixture or accessibility improvement. Require a reproduction and relevant test for bugs; avoid lengthy templates/governance/CLA bureaucracy for a new small project. CI runs without secrets or paid services.
 
@@ -92,9 +100,15 @@ A release candidate should include exact tested environment/model, measured setu
 | License/privacy/secret leak | Separate source/model rights, synthetic fixtures, ignored runtime artifacts and publication review |
 | Rule/deadline changes | Recheck official sources at publication; keep a time buffer and record the submitted revision |
 
-Implementation was explicitly approved October 16. Publication/submission remains unauthorized.
+Implementation and GitHub source publication were explicitly approved. Source publication is complete. Uploading a new demo, publishing the DEV article, tagging a release or deploying remain separately gated; preparing local reviewable assets is authorized.
 
 
 ## October 16 delivery check
 
 Reopened the [official challenge](https://dev.to/challenges/hacktoberfest-week2-2026-10-12) and followed its Submission Template link. The link prefill names the expected sections and `devchallenge,hf26challenge` tags; the actual editor requires sign-in, which was not performed. Local draft: [SUBMISSION_DRAFT.md](SUBMISSION_DRAFT.md). Use a recorded local demo and a separately approved public repository link; a localhost URL is not a judge-accessible deployment. Gemma is the relevant implemented partner category; do not claim unrelated partner integrations. No first user, testimonial or willingness-to-pay result was obtained.
+
+## October 17 release checkpoint
+
+Public baseline [`47f855c`](https://github.com/RishavRajSingh44/BountyPilot/commit/47f855c6dced7ee8157627537a3fc5f39ade9b65) preserves original history. [CI completed 6/6 jobs](https://github.com/RishavRajSingh44/BountyPilot/actions/runs/38957972841): 79 deterministic tests / 12 opt-in skips per job, installation/lint/types/build/audit on Linux/macOS/Windows and Node 24.14.0/24.21.0; seven Chromium checks per OS on 24.21.0. This does not prove native Gemma performance on each OS. Separate macOS clean-install real Gemma/restart/restore evidence includes both successes and rejected analyses in [RELEASE_VERIFICATION.md](RELEASE_VERIFICATION.md).
+
+Next: review the local demo material and narration in [DEMO_SCRIPT.md](DEMO_SCRIPT.md), approve an accessible video destination and exact DEV draft, then explicitly approve publication. Existing full-discussion recordings contain excluded contact details and must stay private. A captioned walkthrough made only from the six already reviewed genuine screenshots may be prepared locally; label it as historical screenshots rather than a fresh continuous interaction. It complements, and does not replace, the recorded real workflow evidence.

@@ -2,6 +2,8 @@
 
 Status: approved and in implementation; portability revision October 16, 2026. Research checked October 16, 2026. Product scope: [PRD.md](PRD.md). Roadmap: [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md).
 
+Final AI decision — October 17: preserve the implemented single Next.js application, Ollama adapter and existing `InferenceProvider` interface. Ollama is the inference runtime; Gemma 3 4B is the primary/default model it serves. No Gemini, OpenAI, provider registry or other cloud-AI integration/refactoring before the Hacktoberfest submission. Such adapters are post-submission roadmap items, not implementation commitments. Installed Gemma 3 1B remains explicitly experimental after 0/12 grounded results passed. Existing explicit authenticated remote-Ollama configuration remains unchanged and live-unverified; it is not a paid-provider fallback. BountyPilot, Ollama and Gemma retain their separate terms in THIRD_PARTY_NOTICES.md.
+
 ## 1. Architecture decision
 
 Use a **single Next.js App Router application in TypeScript**, Tailwind CSS, selected shadcn/ui controls, Node's SQLite module, and server-side HTTP calls to GitHub and a local Ollama process running Gemma 3. Use Vitest, Playwright and GitHub Actions for checks. Do not create a Python service for an HTTP-only inference integration.
