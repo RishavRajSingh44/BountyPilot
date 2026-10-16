@@ -31,7 +31,8 @@ Actual application captures from October 16, 2026, using public GitHub issues an
 | Available | Local Gemma 3 4B analysis; structured scope, skills, suggestions, risks and unknowns; exact source-quote validation; cancellation; last-good result preservation |
 | Available | SQLite persistence; saved/evaluating/pursuing/archived statuses; pipeline filtering; overview; dark/light UI; installed supported-model selection |
 | Experimental | Gemma 3 1B: all 12 measured grounding checks failed; invalid results were rejected. Not a proven lower-memory replacement |
-| Configurable, not live-verified | Authenticated HTTPS remote Ollama; native Windows/Linux recipes and CI configuration |
+| CI-verified | Installation, lint, types, 79 deterministic tests and production build on Linux/macOS/Windows with Node 24.14.0 and 24.21.0; seven Chromium checks per OS on 24.21.0 |
+| Configurable, not live-verified | Authenticated HTTPS remote Ollama; interactive local Gemma workflows on Windows/Linux |
 | Planned | Notifications, optional Gemini/OpenAI APIs, additional opportunity sources, improved low-resource inference, notes and Kanban |
 
 ## Why BountyPilot Is FOSS
@@ -70,7 +71,7 @@ One trusted local OS user, one Node process and one active inference. [Technical
 
 ## Installation
 
-The GitHub URL below is the intended publication destination; it will become available only after owner-approved publication. No release or hosted deployment is implied.
+Source is publicly available on GitHub. No packaged release or hosted deployment is provided.
 
 ### macOS
 
@@ -94,7 +95,7 @@ npm run dev
 
 Open **http://127.0.0.1:3000**. Use that exact origin; `localhost` is deliberately rejected. Production local use: `npm run build`, then `npm start`. Keep BountyPilot bound to loopback; it has no authentication and is not ready for public hosting.
 
-### Linux and Windows — native installation not yet verified
+### Linux and Windows — CI checked; local Gemma workflow unverified
 
 Linux uses the same repository/npm commands with an official Node 24 runtime and the Linux Ollama installer. In native PowerShell:
 
@@ -109,7 +110,7 @@ ollama pull gemma3:4b
 npm run dev
 ```
 
-Use a native OS-specific npm install; do not copy node_modules between platforms. [Compatibility documentation](docs/COMPATIBILITY.md) covers isolated Ollama ports, environment syntax, paths and remote configuration. CI targets Linux/macOS/Windows; configuration alone is not verification.
+Use a native OS-specific npm install; do not copy node_modules between platforms. [Compatibility documentation](docs/COMPATIBILITY.md) covers isolated Ollama ports, environment syntax, paths and remote configuration. [Publication CI](https://github.com/RishavRajSingh44/BountyPilot/actions/runs/38957344507) passed on Linux/macOS/Windows. It uses synthetic HTTP fixtures and does not validate Ollama installation or model performance on those runners.
 
 ## Configuration
 
@@ -190,7 +191,7 @@ Expect `ok` and no foreign-key rows, then inspect Pipeline. Diagnose errors; nev
 - Gemma 4B's small prompt-v4 evaluation produced 12/12 valid outputs, 11/12 manually useful; skills sometimes echo inputs and relevant context may be omitted. Historical results are not current guarantees.
 - Gemma 1B failed all 12 grounded checks; one rejected response followed malicious source instructions. It remains experimental.
 - Historical recorded live analysis: 12.147 seconds on the named M4 Pro/48 GiB Mac. Not a hardware minimum, universal latency or repeated benchmark.
-- Native Windows/Linux, lower-memory hardware, live secured remote Ollama and formal accessibility conformance are unverified.
+- Interactive Windows/Linux Gemma workflows, lower-memory hardware, live secured remote Ollama and formal accessibility conformance are unverified. Automated installation/build/test checks passed on GitHub's three OS runners.
 - GitHub quotas, 1,000-search-result limit and bounded discussion/prompt coverage can omit relevant evidence. Scores apply to one fetched page.
 - Single user/process; no public SaaS authentication, billing, earnings tracking, notes, Kanban or notifications. Local SQLite is plaintext.
 
@@ -200,7 +201,7 @@ Evaluate verified paid-opportunity integrations, opt-in notifications, optional 
 
 ## Community
 
-[Contributing](CONTRIBUTING.md) · [Issues](https://github.com/RishavRajSingh44/BountyPilot/issues) · [Security](SECURITY.md) · [Code of Conduct](CODE_OF_CONDUCT.md). GitHub links become usable after publication. Suggested first contributions and actual 2026 challenge guidance are in CONTRIBUTING.md. No customer, sponsor or revenue is claimed.
+[Contributing](CONTRIBUTING.md) · [Issues](https://github.com/RishavRajSingh44/BountyPilot/issues) · [Security](SECURITY.md) · [Code of Conduct](CODE_OF_CONDUCT.md). Suggested first contributions and actual 2026 challenge guidance are in CONTRIBUTING.md. No customer, sponsor or revenue is claimed.
 
 ## License
 

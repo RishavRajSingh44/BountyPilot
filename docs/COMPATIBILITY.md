@@ -76,7 +76,7 @@ Use user-controlled directories with correct permissions. Moving the database re
 
 ## Verification and known limits
 
-Run `npm test`, `npm run typecheck`, `npm run lint`, `npm run build`; run `npm run setup:browser` then `npm run test:e2e` after building. CI will exercise Linux/macOS/Windows with Node 24.14 and 24.x where dependencies permit. Native AI/hardware tests are separate opt-in checks, never GPU downloads in contributor CI. Check recorded results before claiming a platform works.
+Run `npm test`, `npm run typecheck`, `npm run lint`, `npm run build`; run `npm run setup:browser` then `npm run test:e2e` after building. [Publication CI](https://github.com/RishavRajSingh44/BountyPilot/actions/runs/38957344507) passed all six jobs on Linux/macOS/Windows with Node 24.14.0 and 24.21.0: fresh installation, lint, types, 79 deterministic tests (12 opt-in cases skipped), build and dependency audit. Each 24.21.0 job also passed seven Chromium checks. These use synthetic outbound HTTP boundaries; interactive Ollama installation, local Gemma inference and hardware compatibility on Windows/Linux remain unverified. Native AI/hardware tests are separate opt-in checks, never GPU downloads in contributor CI.
 
 
 Actual quality gate: Gemma 4B passed the prompt-v4 corpus with the limitations recorded in IMPLEMENTATION_PROGRESS.md. Gemma 1B returned actual responses but all 12 failed grounded citation validation, including an unsafe interpretation that was rejected. It is an experimental selectable option, not a proven usable replacement or low-memory guarantee. Secure remote Ollama remains the configurable option for a machine unable to run 4B; no live remote endpoint was tested.
