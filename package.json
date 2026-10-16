@@ -11,9 +11,11 @@
     "build": "next build --webpack",
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
-    "probe:model": "node --env-file-if-exists=.env.local scripts/probe-model.mjs"
+    "probe:model": "node --env-file-if-exists=.env.local scripts/probe-model.mjs",
+    "setup:browser": "node scripts/browser.mjs install",
+    "test:e2e": "node scripts/browser.mjs test"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.3.3",

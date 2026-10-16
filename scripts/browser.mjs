@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { resolve } from 'node:path';
+const action = process.argv[2];
+assert(['install', 'test'].includes(action), 'Expected install or test');
+const directory = process.env.PLAYWRIGHT_BROWSERS_PATH || resolve(process.env.BOUNTYPILOT_CACHE_DIR || '.cache', 'browsers');
+const args = action === 'install' ? ['install', 'chromium'] : ['test', ...process.argv.slice(3)];
+const result = spawnSync(process.execPath, [resolve('node_modules/playwright/cli.js'), ...args], { stdio: 'inherit', env: { ...process.env, PLAYWRIGHT_BROWSERS_PATH: directory } });
+if (result.error) throw result.error;
+assert.equal(result.status, 0, `Playwright ${action} failed`);

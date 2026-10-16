@@ -32,7 +32,16 @@ Ollama 0.40.5, Apple M4 Pro / 12 CPU / 48 GiB RAM, macOS arm64, temperature 0, c
 
 Both returned schema-valid summaries and `funding:null`; 1B embellished the requested scope and described absent funding as “without seeking external funding.” That is a quality limitation, not an approved conclusion. M4's grounded evaluation must address this; these simple feasibility assertions are not release quality approval. Model residency reported by `/api/ps` is **not peak process memory or a RAM minimum**. Both measurements used this same 48 GiB machine; lower-memory hardware remains untested. Raw measurement files/digests are in ignored configurable cache storage.
 
-M1 is ready for its local Git commit. Next: M2 real discovery/ranking. Publication remains unauthorized.
+M1 committed locally as `08e336d`. Publication remains unauthorized.
+
+## M2 — Discovery and ranking (verified October 16)
+
+- Added constrained public/open GitHub issue search, 25-item upstream pagination, deterministic score/evidence explanations, quota cooldown, bounded retry/cache and accessible results/filter UI. No model is called for discovery.
+- Actual app request on loopback dev port 3001 returned HTTP 200 in 2,452 ms (including development compilation), provider count 81,246, `incomplete_results=false`; source records came from GitHub, not fixtures. One returned source was `https://github.com/oll4com/spaceapp/issues/60`. Its source text is a claim, not evidence of funding/settlement.
+- Current unit/integration suite: 43 passed. A test caught “No compensation information” being treated as a signal; fixed the parser to preserve unknown status and exact quote offsets. Added differing-amount conflict handling. Typecheck and lint passed after fixing a fixture's overly narrow input type.
+- Read Next 16.4's generated AGENTS.md and relevant installed route/proxy/type/data docs. Corrected clean-checkout type generation before tsc, and stopped tracking generated next-env.d.ts as the installed docs require. No new Next behavior is assumed from older versions.
+- Verified actual browser search with real GitHub results, source links and warnings. Automated Chromium UI checks: **2 passed** (synthetic API fixtures, no provider/model requirement); they cover search with AI unavailable, score disclosure, quota/retry guidance and editable filters. Separate provider unit tests exercise real domain code with HTTP mocks.
+- `npm run typecheck`, `npm run lint`, `npm test` (43 passed), `npm run build` passed with Node 24.22. Browser artifacts/browser binaries stay in configurable ignored cache directories. Ready for local M2 commit; M3 adds detail and saved persistence.
 
 ## Remaining milestones
 

@@ -22,4 +22,6 @@ Run `npm run dev` and open http://127.0.0.1:3000. Keep this origin; localhost an
 
 Checks: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`; actual model probe: `npm run probe:model`. Model measurements are recorded only after real inference.
 
+Browser checks: `npm run setup:browser` downloads official Chromium into the configurable project cache. Then `npm run build` and `npm run test:e2e`. Tests start a separate local app with a disposable database and use explicitly synthetic HTTP fixtures; they do not prove live funding or AI quality. Set `PLAYWRIGHT_BROWSERS_PATH` or `BOUNTYPILOT_CACHE_DIR` to change artifact locations.
+
 SQLite lives at `data/bountypilot.sqlite`. Never delete/reset it as a recovery step. Before migration or backup, stop the application and copy the database after a clean checkpoint/shutdown; do not copy only the main file from an active WAL database. All runtime data, backups, caches and weights are ignored by Git. Local data is plaintext and protected by OS permissions, not application encryption.
