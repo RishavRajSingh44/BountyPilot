@@ -1,0 +1,11 @@
+node_modules/
+.next/
+.cache/
+.runtime/
+data/
+test-results/
+playwright-report/
+.env*
+!.env.example
+*.tsbuildinfo
+node-releases.json
