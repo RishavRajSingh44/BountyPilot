@@ -1,7 +1,18 @@
 import { health } from '@/lib/server/health';
-import { ModelSelect, ReadinessNotice } from '@/components/ReadinessNotice';
+import { ReadinessNotice } from '@/components/ReadinessNotice';
 import { SearchForm } from '@/components/SearchForm';
+import { PageHeading } from '@/components/PageHeading';
 export default async function Home() {
   const state = await health();
-  return <><h1>Find work worth investigating</h1><p>Inspect real GitHub opportunities with local AI and visible evidence.</p><ReadinessNotice state={state}/><SearchForm/><details><summary>Installed AI models</summary><ModelSelect state={state}/></details></>;
+  return (
+    <>
+      <PageHeading
+        eyebrow="Discover / public GitHub issues"
+        title="Find your next opportunity"
+        description="Real issues. Visible evidence. Local AI to help you decide where your skills fit."
+      />
+      <ReadinessNotice state={state} />
+      <SearchForm />
+    </>
+  );
 }

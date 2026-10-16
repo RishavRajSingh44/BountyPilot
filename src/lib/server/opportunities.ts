@@ -1,20 +1,21 @@
 import 'server-only';
 import { z } from 'zod';
 import { createHash } from 'node:crypto';
-import { identitySchema, type OpportunityDetail, type Snapshot, type Source } from '@/lib/schemas';
+import { analysisPromptVersion, identitySchema, type OpportunityDetail, type Snapshot, type Source } from '@/lib/schemas';
 import { githubGet, normalizeIssue } from './github';
 import { issueSources, paymentEvidence } from './evidence';
-import { getSaved, getSnapshot, storeSnapshot } from './db';
+import { getSaved, getSnapshot, storeSnapshot, getAnalysis } from './db';
 import { rank } from './ranking';
 import { AppError } from './errors';
 
 export function detail(snapshot: Snapshot, skills: string[] = []): OpportunityDetail {
-  return { ...snapshot.issue, repository: snapshot.repository, sources: snapshot.sources, coverage: snapshot.coverage, paidEvidence: snapshot.evidence, snapshotHash: snapshot.hash, fetchedAt: snapshot.fetchedAt, score: rank(snapshot.issue,snapshot.evidence,skills,Date.now(),snapshot.repository.archived), saved: getSaved(snapshot.issue.id) };
+  const analysis=getAnalysis(snapshot.issue.id);
+  return { ...snapshot.issue, repository: snapshot.repository, sources: snapshot.sources, coverage: snapshot.coverage, paidEvidence: snapshot.evidence, snapshotHash: snapshot.hash, fetchedAt: snapshot.fetchedAt, score: rank(snapshot.issue,snapshot.evidence,skills,Date.now(),snapshot.repository.archived), saved: getSaved(snapshot.issue.id), analysis, analysisStale:Boolean(analysis && (analysis.snapshotHash!==snapshot.hash || analysis.promptVersion!==analysisPromptVersion)) };
 }
 export function storedDetail(id: string): OpportunityDetail {
   const snapshot = getSnapshot(id); if (!snapshot) throw new AppError('NOT_FOUND','This issue has not been retrieved.',404); return detail(snapshot);
 }
-const commentSchema = z.array(z.object({ id: z.number().int().positive().refine(Number.isSafeInteger), body: z.string().nullable(), updated_at: z.iso.datetime(), user: z.object({login:z.string().max(100)}).nullable(), author_association: z.string().max(100).default('UNKNOWN') })).max(100);
+const commentSchema = z.array(z.object({ id: z.number().int().positive().refine(Number.isSafeInteger), body: z.string().nullable(), created_at:z.iso.datetime().nullable().optional(), updated_at: z.iso.datetime(), user: z.object({login:z.string().max(100)}).nullable(), author_association: z.string().max(100).default('UNKNOWN') })).max(100);
 export async function refreshOpportunity(raw: unknown, signal?: AbortSignal): Promise<OpportunityDetail> {
   const identity = identitySchema.parse(raw); const path = `/repos/${identity.owner}/${identity.repo}`;
   const context = { signal: signal ? AbortSignal.any([signal,AbortSignal.timeout(25000)]) : AbortSignal.timeout(25000), retries: 1 };
@@ -41,7 +42,7 @@ export async function refreshOpportunity(raw: unknown, signal?: AbortSignal): Pr
   } catch (error) { if (error instanceof AppError) throw error; throw new AppError('GITHUB_INVALID_RESPONSE','Discussion retrieval failed. Prior data is preserved.',502,true); }
   for (const comment of comments) {
     const text = comment.body || '';
-    sources.push({ id:`comment:${comment.id}`, kind:'comment', url:`${issue.url}#issuecomment-${comment.id}`, text:text.slice(0,2000), truncated:text.length>2000, author:comment.user?.login || 'deleted', association:comment.author_association, updatedAt:comment.updated_at });
+    sources.push({ id:`comment:${comment.id}`, kind:'comment', url:`${issue.url}#issuecomment-${comment.id}`, text:text.slice(0,2000), truncated:text.length>2000, author:comment.user?.login || 'deleted', association:comment.author_association, createdAt:comment.created_at||null, updatedAt:comment.updated_at });
   }
   if (reported > 100) warnings.push('Only the latest 100 comments are fetched; earlier or newly edited statements may be missing.');
   const coverage = { commentsReported:reported, commentsFetched:comments.length, commentsComplete:reported===comments.length && !warnings.length, sourceTruncated:sources.some(s=>s.truncated), fetchWarnings:warnings };

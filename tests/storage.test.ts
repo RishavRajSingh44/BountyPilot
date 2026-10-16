@@ -52,7 +52,7 @@ describe('retrieval and source preservation',()=>{
 describe('saved pipeline',()=>{
   it('saves idempotently, preserves status/timestamps, unsaves locally and lists metadata only',async()=>{
     const detail=await retrieve();const saved=store.saveOpportunity(detail.id);store.updateSaved(detail.id,'pursuing');const repeated=store.saveOpportunity(detail.id);
-    expect(repeated.status).toBe('pursuing');expect(repeated.savedAt).toBe(saved.savedAt);expect(store.listSaved()).toHaveLength(1);expect(store.listSaved()[0]).not.toHaveProperty('sources');
+    expect(repeated.status).toBe('pursuing');expect(repeated.savedAt).toBe(saved.savedAt);expect(store.listSaved()).toHaveLength(1);expect(Object.getPrototypeOf(store.listSaved()[0])).toBe(Object.prototype);expect(Object.getPrototypeOf(repeated)).toBe(Object.prototype);expect(store.listSaved()[0]).not.toHaveProperty('sources');
     store.unsaveOpportunity(detail.id);store.unsaveOpportunity(detail.id);expect(store.listSaved()).toEqual([]);expect(store.getSnapshot(detail.id)).not.toBeNull();
   });
   it('caps saved rows at 500 without evicting saved evidence or rejecting repeat saves',async()=>{

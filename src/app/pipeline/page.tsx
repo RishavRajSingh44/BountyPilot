@@ -1,3 +1,15 @@
 import { listSaved } from '@/lib/server/db';
 import { PipelineList } from '@/components/PipelineList';
-export default function Pipeline() { return <><h1>Saved pipeline</h1><PipelineList initial={listSaved()}/></>; }
+import { PageHeading } from '@/components/PageHeading';
+export default function Pipeline() {
+  return (
+    <>
+      <PageHeading
+        eyebrow="Pipeline / your shortlist"
+        title="Keep promising work in sight"
+        description="A private pipeline on this computer. Update your progress without changing anything on GitHub."
+      />
+      <PipelineList initial={listSaved()} />
+    </>
+  );
+}

@@ -145,3 +145,8 @@ Review result: the smallest complete design is one local app, three SQLite table
 The exact first implementation milestone is **M1 — Establish the local runtime and prove Gemma feasibility**, 3–4 focused hours plus any model installation/download time. Begin by rechecking this directory, pinning a patched compatible Node/Next toolchain, adding the minimal shell/health/storage schema, and proving one actual local Gemma structured response. It does not include building search, a Python server, or optional infrastructure.
 
 Approval received. Resume M1 with the portability revision below; publish nothing without further authorization.
+
+
+## UI extension accepted during implementation
+
+The user's premium UI request is specified in UI_DESIGN.md. Apply it to P0 screens with shared tokens/components, without financial features or a new backend. Keep `/` for discovery, add read-only Overview/Settings, and embed analysis in detail. Status filtering and removal confirmation use existing storage APIs. Notes, Kanban and persisted profiles remain deferred. Visual QA adds 30 screenshots and keyboard checks. Gemma 1B stays explicitly experimental after its actual failed quality evaluation; the preferred 4B remains the demonstrated P0 path. These revisions preserve the dependency order and deadline.

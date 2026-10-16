@@ -58,7 +58,7 @@ describe('queries and GitHub transport', () => {
 describe('evidence and ranking', () => {
   it.each([
     ['No bounty. This is not paid.', 'conflicting'], ['Reward withdrawn; USD 100 was previously offered.', 'conflicting'],
-    ['Reward USD 100 for parser tests.', 'claim_found'], ['A paid task, amount unknown.', 'signal_only'], ['No compensation information here.', 'unknown'], ['Reward USD 100, later changed to USD 200.', 'conflicting'],
+    ['If we had a sponsor, we could hypothetically offer a $500 bounty.', 'signal_only'], ['Reward USD 100 for parser tests.', 'claim_found'], ['A paid task, amount unknown.', 'signal_only'], ['No compensation information here.', 'unknown'], ['Reward USD 100, later changed to USD 200.', 'conflicting'],
   ])('classifies %s conservatively', async (text,state) => {
     const { normalizeIssue } = await import('@/lib/server/github'); const issue=normalizeIssue({...githubIssue,title:'Synthetic parser',body:text,labels:[]},'synthetic-owner','fixture'); const sources=issueSources(issue); const evidence=paymentEvidence(sources,'issue_only');
     expect(evidence.state).toBe(state); for(const excerpt of evidence.excerpts) expect(sources.find(s=>s.id===excerpt.sourceId)?.text.slice(excerpt.offset,excerpt.offset+excerpt.quote.length)).toBe(excerpt.quote);

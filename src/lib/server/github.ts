@@ -12,11 +12,11 @@ const user = z.object({ login: z.string() });
 const issueSchema = z.object({
   id, number: id, title: z.string(), body: z.string().nullable(), state: z.enum(['open', 'closed']), locked: z.boolean().nullable().default(null),
   labels: z.array(z.union([z.string(), z.object({ name: z.string() })])).max(500), assignees: z.array(user),
-  updated_at: z.iso.datetime(), user: user.nullable(), author_association: z.string().default('UNKNOWN'), comments: z.number().int().nonnegative(),
+  created_at: z.iso.datetime().nullable().optional(), updated_at: z.iso.datetime(), user: user.nullable(), author_association: z.string().default('UNKNOWN'), comments: z.number().int().nonnegative(),
 });
 export function normalizeIssue(raw: unknown, owner: string, repo: string): Issue {
   const data = issueSchema.parse(raw); const body = data.body || '';
-  return { id: String(data.id), owner: ownerSchema.parse(owner), repo: repoSchema.parse(repo), number: data.number, url: `https://github.com/${owner}/${repo}/issues/${data.number}`, title: data.title.slice(0, 512), body: body.slice(0, 16000), bodyTruncated: body.length > 16000, state: data.state, locked: data.locked, labels: data.labels.map(l => typeof l === 'string' ? l : l.name).slice(0, 100), assignees: data.assignees.map(u => u.login), updatedAt: data.updated_at, author: data.user?.login || 'deleted', association: data.author_association, commentsReported: data.comments };
+  return { id: String(data.id), owner: ownerSchema.parse(owner), repo: repoSchema.parse(repo), number: data.number, url: `https://github.com/${owner}/${repo}/issues/${data.number}`, title: data.title.slice(0, 512), body: body.slice(0, 16000), bodyTruncated: body.length > 16000, state: data.state, locked: data.locked, labels: data.labels.map(l => typeof l === 'string' ? l : l.name).slice(0, 100), assignees: data.assignees.map(u => u.login), createdAt:data.created_at || null, updatedAt: data.updated_at, author: data.user?.login || 'deleted', association: data.author_association, commentsReported: data.comments };
 }
 export function compileQuery(input: SearchInput) {
   return [input.preset, input.keywords, 'is:issue is:open is:public', input.repo ? `repo:${input.repo}` : '', input.language ? `language:"${input.language}"` : ''].filter(Boolean).join(' ');

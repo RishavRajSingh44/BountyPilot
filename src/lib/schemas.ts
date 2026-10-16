@@ -1,37 +1,229 @@
 import { z } from 'zod';
+export const analysisPromptVersion = 'v3';
 export const modelTag = z.enum(['gemma3:4b', 'gemma3:1b']);
 export const healthSchema = z.object({
-  app: z.literal('ready'), storage: z.enum(['ready', 'error']),
+  app: z.literal('ready'),
+  storage: z.enum(['ready', 'error']),
   github: z.enum(['configured', 'anonymous']),
-  ollama: z.enum(['ready', 'unreachable', 'model_missing', 'configuration_error', 'unauthorized']), modelTag,
+  ollama: z.enum(['ready', 'unreachable', 'model_missing', 'configuration_error', 'unauthorized']),
+  modelTag,
   models: z.array(z.object({ name: modelTag, digest: z.string(), size: z.number() })),
-  inferenceMode: z.enum(['local', 'remote', 'unconfigured']),
+  inferenceMode: z.enum(['local', 'remote', 'unconfigured'])
 });
 export type Health = z.infer<typeof healthSchema>;
 
 export const ownerSchema = z.string().regex(/^[A-Za-z0-9][A-Za-z0-9-]{0,38}$/);
-export const repoSchema = z.string().regex(/^[A-Za-z0-9_.-]{1,100}$/).refine(s => s !== '.' && s !== '..');
+export const repoSchema = z
+  .string()
+  .regex(/^[A-Za-z0-9_.-]{1,100}$/)
+  .refine((s) => s !== '.' && s !== '..');
 export const issueId = z.string().regex(/^\d{1,20}$/);
-export const skillsSchema = z.array(z.string().trim().min(1).max(30)).max(10).transform(s => [...new Set(s.map(v => v.toLowerCase()))]);
+export const skillsSchema = z
+  .array(z.string().trim().min(1).max(30))
+  .max(10)
+  .transform((s) => [...new Set(s.map((v) => v.toLowerCase()))]);
 export const searchSchema = z.object({
   preset: z.enum(['bounty', 'paid', 'reward']).default('bounty'),
-  keywords: z.string().trim().max(80).regex(/^[\p{L}\p{N} "'_.-]*$/u).refine(s => !/\b(AND|OR|NOT)\b/i.test(s) && (s.match(/"/g)?.length || 0) % 2 === 0, 'Use words or balanced quoted phrases, without query operators').default(''),
-  repo: z.string().default('').refine(s => !s || (s.split('/').length === 2 && ownerSchema.safeParse(s.split('/')[0]).success && repoSchema.safeParse(s.split('/')[1]).success), 'Use owner/repository'),
-  language: z.string().trim().max(30).regex(/^[A-Za-z0-9#+. -]*$/).default(''),
-  skills: skillsSchema.default([]), page: z.coerce.number().int().min(1).max(40).default(1),
+  keywords: z
+    .string()
+    .trim()
+    .max(80)
+    .regex(/^[\p{L}\p{N} "'_.-]*$/u)
+    .refine(
+      (s) => !/\b(AND|OR|NOT)\b/i.test(s) && (s.match(/"/g)?.length || 0) % 2 === 0,
+      'Use words or balanced quoted phrases, without query operators'
+    )
+    .default(''),
+  repo: z
+    .string()
+    .default('')
+    .refine(
+      (s) =>
+        !s ||
+        (s.split('/').length === 2 &&
+          ownerSchema.safeParse(s.split('/')[0]).success &&
+          repoSchema.safeParse(s.split('/')[1]).success),
+      'Use owner/repository'
+    ),
+  language: z
+    .string()
+    .trim()
+    .max(30)
+    .regex(/^[A-Za-z0-9#+. -]*$/)
+    .default(''),
+  skills: skillsSchema.default([]),
+  page: z.coerce.number().int().min(1).max(40).default(1)
 });
 export type SearchInput = z.infer<typeof searchSchema>;
-export type Source = { id: string; url: string; kind: 'title' | 'body' | 'labels' | 'comment'; author: string; association: string; updatedAt: string; text: string; truncated: boolean };
-export type Issue = { id: string; owner: string; repo: string; number: number; url: string; title: string; body: string; state: 'open' | 'closed'; locked: boolean | null; labels: string[]; assignees: string[]; updatedAt: string; author: string; association: string; commentsReported: number; bodyTruncated: boolean };
-export type Evidence = { state: 'unknown' | 'signal_only' | 'claim_found' | 'conflicting'; excerpts: { sourceId: string; quote: string; offset: number; url: string; author: string; association: string; updatedAt: string }[]; coverage: 'issue_only' | 'retrieved_sources'; labelOnly: boolean };
-export type Score = { total: number; version: 'v1'; parts: { evidence: number; skills: number; recency: number; availability: number; scope: number }; warnings: string[] };
-export type OpportunitySummary = Omit<Issue, 'body'> & { paidEvidence: Evidence; score: Score; saved: boolean };
-export type SearchResult = { items: OpportunitySummary[]; page: number; hasNext: boolean; totalCount: number; incompleteResults: boolean; query: string; observedAt: string; cache: 'hit' | 'miss'; warnings: string[]; rateLimit: { remaining: number | null; resetAt: string | null } };
-export const identitySchema = z.strictObject({ owner: ownerSchema, repo: repoSchema, number: z.coerce.number().int().positive().max(Number.MAX_SAFE_INTEGER) });
+export type Source = {
+  createdAt?: string | null;
+  id: string;
+  url: string;
+  kind: 'title' | 'body' | 'labels' | 'comment';
+  author: string;
+  association: string;
+  updatedAt: string;
+  text: string;
+  truncated: boolean;
+};
+export type Issue = {
+  createdAt?: string | null;
+  id: string;
+  owner: string;
+  repo: string;
+  number: number;
+  url: string;
+  title: string;
+  body: string;
+  state: 'open' | 'closed';
+  locked: boolean | null;
+  labels: string[];
+  assignees: string[];
+  updatedAt: string;
+  author: string;
+  association: string;
+  commentsReported: number;
+  bodyTruncated: boolean;
+};
+export type Evidence = {
+  state: 'unknown' | 'signal_only' | 'claim_found' | 'conflicting';
+  excerpts: {
+    sourceId: string;
+    quote: string;
+    offset: number;
+    url: string;
+    author: string;
+    association: string;
+    updatedAt: string;
+  }[];
+  coverage: 'issue_only' | 'retrieved_sources';
+  labelOnly: boolean;
+};
+export type Score = {
+  total: number;
+  version: 'v1';
+  parts: { evidence: number; skills: number; recency: number; availability: number; scope: number };
+  warnings: string[];
+};
+export type OpportunitySummary = Omit<Issue, 'body'> & {
+  paidEvidence: Evidence;
+  score: Score;
+  saved: boolean;
+};
+export type SearchResult = {
+  items: OpportunitySummary[];
+  page: number;
+  hasNext: boolean;
+  totalCount: number;
+  incompleteResults: boolean;
+  query: string;
+  observedAt: string;
+  cache: 'hit' | 'miss';
+  warnings: string[];
+  rateLimit: { remaining: number | null; resetAt: string | null };
+};
+export const identitySchema = z.strictObject({
+  owner: ownerSchema,
+  repo: repoSchema,
+  number: z.coerce.number().int().positive().max(Number.MAX_SAFE_INTEGER)
+});
 export const savedStatus = z.enum(['saved', 'evaluating', 'pursuing', 'archived']);
-export type SavedRecord = { opportunityId: string; status: z.infer<typeof savedStatus>; savedAt: string; updatedAt: string };
-export type Coverage = { commentsReported: number; commentsFetched: number; commentsComplete: boolean; sourceTruncated: boolean; fetchWarnings: string[] };
+export type SavedRecord = {
+  opportunityId: string;
+  status: z.infer<typeof savedStatus>;
+  savedAt: string;
+  updatedAt: string;
+};
+export type Coverage = {
+  commentsReported: number;
+  commentsFetched: number;
+  commentsComplete: boolean;
+  sourceTruncated: boolean;
+  fetchWarnings: string[];
+};
 export type Repository = { language: string | null; archived: boolean; private: false };
-export type Snapshot = { issue: Issue; repository: Repository; sources: Source[]; coverage: Coverage; evidence: Evidence; hash: string; fetchedAt: string };
-export type OpportunityDetail = Issue & { repository: Repository; sources: Source[]; coverage: Coverage; paidEvidence: Evidence; snapshotHash: string; fetchedAt: string; score: Score; saved: SavedRecord | null };
-export type SavedSummary = { id: string; owner: string; repo: string; number: number; url: string; title: string; state: string; fetchedAt: string; paidState: Evidence['state']; status: SavedRecord['status']; savedAt: string; updatedAt: string; analysisAt: string | null };
+export type Snapshot = {
+  issue: Issue;
+  repository: Repository;
+  sources: Source[];
+  coverage: Coverage;
+  evidence: Evidence;
+  hash: string;
+  fetchedAt: string;
+};
+export type OpportunityDetail = Issue & {
+  repository: Repository;
+  sources: Source[];
+  coverage: Coverage;
+  paidEvidence: Evidence;
+  snapshotHash: string;
+  fetchedAt: string;
+  score: Score;
+  saved: SavedRecord | null;
+  analysis: AnalysisRecord | null;
+  analysisStale: boolean;
+};
+export type SavedSummary = {
+  id: string;
+  owner: string;
+  repo: string;
+  number: number;
+  url: string;
+  title: string;
+  state: string;
+  fetchedAt: string;
+  paidState: Evidence['state'];
+  status: SavedRecord['status'];
+  savedAt: string;
+  updatedAt: string;
+  analysisAt: string | null;
+};
+
+const boundedText = z.string().trim().min(1).max(300);
+const citationSchema = z.strictObject({
+  id: z.string().regex(/^c[1-8]$/),
+  sourceId: z.string().min(1).max(80),
+  quote: z.string().min(1).max(300)
+});
+export const analysisResultSchema = z.strictObject({
+  summary: z.string().trim().min(1).max(1200),
+  skills: z.array(z.string().trim().min(1).max(60)).max(10),
+  difficulty: z.enum(['low', 'medium', 'high', 'unknown']),
+  suggestions: z.array(boundedText).max(4),
+  risks: z
+    .array(
+      z.strictObject({
+        text: boundedText,
+        citationIds: z.array(z.string().min(1).max(40)).min(1).max(8)
+      })
+    )
+    .max(6),
+  questions: z.array(boundedText).max(6),
+  unknowns: z.array(boundedText).min(1).max(8),
+  citations: z.array(citationSchema).max(8)
+});
+export const analyzeInputSchema = z.strictObject({
+  skills: skillsSchema.default([]),
+  model: modelTag
+});
+export type AnalysisResult = z.infer<typeof analysisResultSchema>;
+export type AnalysisSources = {
+  sources: Source[];
+  retrieval: Coverage;
+  inputCharacters: number;
+  availableSources: number;
+  omittedOrShortened: boolean;
+};
+export type AnalysisRecord = {
+  opportunityId: string;
+  inputHash: string;
+  snapshotHash: string;
+  sources: AnalysisSources;
+  result: AnalysisResult;
+  skills: string[];
+  modelTag: z.infer<typeof modelTag>;
+  modelDigest: string;
+  promptVersion: string;
+  generatedAt: string;
+  durationMs: number;
+};

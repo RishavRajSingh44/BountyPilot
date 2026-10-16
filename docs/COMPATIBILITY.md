@@ -15,7 +15,7 @@ npm ci
 npm run dev
 ```
 
-Open `http://127.0.0.1:3000`. The app runs only on loopback and does not require a Python service, Docker, GPU, or Ollama to search/save (once those P0 milestones are complete). Windows contributors can use native PowerShell; WSL is optional, not required. SQLite is provided by Node; Tailwind/Next test their native optional packages during install/build. Do not copy node_modules between operating systems.
+Open `http://127.0.0.1:3000`. The app runs only on loopback and does not require a Python service, Docker, GPU, or Ollama to search/save . Windows contributors can use native PowerShell; WSL is optional, not required. SQLite is provided by Node; Tailwind/Next test their native optional packages during install/build. Do not copy node_modules between operating systems.
 
 Copy `.env.example` to `.env.local`: macOS/Linux `cp .env.example .env.local`; PowerShell `Copy-Item .env.example .env.local`. Edit configuration there, never in source. Changes require app restart. `APP_ORIGIN` controls the accepted loopback app port; defaults to `http://127.0.0.1:3000`.
 
@@ -76,4 +76,7 @@ Use user-controlled directories with correct permissions. Moving the database re
 
 ## Verification and known limits
 
-Run `npm test`, `npm run typecheck`, `npm run lint`, `npm run build`; later milestones add the browser suite. CI will exercise Linux/macOS/Windows with Node 24.14 and 24.x where dependencies permit. Native AI/hardware tests are separate opt-in checks, never GPU downloads in contributor CI. Check recorded results before claiming a platform works.
+Run `npm test`, `npm run typecheck`, `npm run lint`, `npm run build`; run `npm run setup:browser` then `npm run test:e2e` after building. CI will exercise Linux/macOS/Windows with Node 24.14 and 24.x where dependencies permit. Native AI/hardware tests are separate opt-in checks, never GPU downloads in contributor CI. Check recorded results before claiming a platform works.
+
+
+Actual quality gate: Gemma 4B passed the prompt-v3 corpus with the limitations recorded in IMPLEMENTATION_PROGRESS.md. Gemma 1B returned actual responses but all 12 failed grounded citation validation, including an unsafe interpretation that was rejected. It is an experimental selectable option, not a proven usable replacement or low-memory guarantee. Secure remote Ollama remains the configurable option for a machine unable to run 4B; no live remote endpoint was tested.

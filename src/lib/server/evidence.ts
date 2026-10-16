@@ -5,7 +5,7 @@ const negative = /\b(?:no (?:bounty|reward|payment|compensation|funding)|not (?:
 const signal = /\b(?:bount(?:y|ies)|paid|reward|payment|compensat\w*)\b/i;
 const amount = /(?:\b(?:USD|EUR|GBP|INR)\s*\d[\d,.]*|[$€£₹]\s*\d[\d,.]*|\d[\d,.]*\s*\b(?:USD|EUR|GBP|INR)\b)/i;
 export function issueSources(issue: Issue): Source[] {
-  const shared = { url: issue.url, author: issue.author, association: issue.association, updatedAt: issue.updatedAt };
+  const shared = { url: issue.url, author: issue.author, association: issue.association, createdAt:issue.createdAt||null, updatedAt: issue.updatedAt };
   return [
     { ...shared, id: `issue:${issue.id}:title`, kind: 'title', text: issue.title, truncated: false },
     { ...shared, id: `issue:${issue.id}:body`, kind: 'body', text: issue.body, truncated: issue.bodyTruncated },
@@ -23,7 +23,7 @@ export function paymentEvidence(sources: Source[], coverage: Evidence['coverage'
     if (cue) { found = true; if (source.kind !== 'labels') textSignal = true; }
     if (money && source.kind !== 'labels') {
       const start = Math.max(0, money.index - 120); const span = scanned.slice(start, money.index + money[0].length + 120);
-      if (signal.test(span) && !negative.test(span)) {
+      if (signal.test(span) && !negative.test(span) && !/\b(?:hypothetical(?:ly)?|could(?:\s+\w+){0,3}\s+offer|if we had|would (?:offer|pay))\b/i.test(span)) {
         claim = true; match = money;
         for (const mention of scanned.matchAll(new RegExp(amount.source, 'gi'))) amounts.add(mention[0].replace(/[\s,]/g, '').toUpperCase());
       }
