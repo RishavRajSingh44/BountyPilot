@@ -41,17 +41,22 @@ M1 committed locally as `08e336d`. Publication remains unauthorized.
 - Current unit/integration suite: 43 passed. A test caught “No compensation information” being treated as a signal; fixed the parser to preserve unknown status and exact quote offsets. Added differing-amount conflict handling. Typecheck and lint passed after fixing a fixture's overly narrow input type.
 - Read Next 16.4's generated AGENTS.md and relevant installed route/proxy/type/data docs. Corrected clean-checkout type generation before tsc, and stopped tracking generated next-env.d.ts as the installed docs require. No new Next behavior is assumed from older versions.
 - Verified actual browser search with real GitHub results, source links and warnings. Automated Chromium UI checks: **2 passed** (synthetic API fixtures, no provider/model requirement); they cover search with AI unavailable, score disclosure, quota/retry guidance and editable filters. Separate provider unit tests exercise real domain code with HTTP mocks.
-- `npm run typecheck`, `npm run lint`, `npm test` (43 passed), `npm run build` passed with Node 24.22. Browser artifacts/browser binaries stay in configurable ignored cache directories. Ready for local M2 commit; M3 adds detail and saved persistence.
+- `npm run typecheck`, `npm run lint`, `npm test` (43 passed), `npm run build` passed with Node 24.22. Browser artifacts/browser binaries stay in configurable ignored cache directories. M2 committed locally as `126da4c`; M3 adds detail and saved persistence.
+
+## M3 — Evidence and durable pipeline (verified October 16)
+
+- Added bounded real repository/issue/latest-comment retrieval, exact source provenance, coverage warnings, stable snapshot hashes, explicit refresh, atomic storage, idempotent save/status/remove and offline pipeline/detail reads. Saved items are never evicted; unsaved snapshots are capped at 500.
+- `npm test`: **56 passed**. New tests cover comment counts/races, Unicode storage budget, failed-refresh preservation, private/PR rejection, snapshot transactions, save limits and safe pruning. A failed eviction test exposed a duplicate identity in its fixture; corrected the fixture and reran successfully.
+- `npm run lint`, `npm run typecheck`, `npm run build`: passed. Production Chromium discovery checks: **2 passed**; listener startup first failed under sandbox, then passed with the permitted loopback test server.
+- Initial real detail attempt was rate limited; retry after GitHub's reset succeeded. Actual issue `oll4com/spaceapp#60`, GitHub ID `5878908647`, title “[$400] Test every Temporal workflow on a real time-skipping test server and gate replay determinism in CI”: seven reported/seven retrieved comments, ten source records, no reported truncation, payment evidence **conflicting**. Earlier search title differed; current source is authoritative only as a retrieved claim, never funding verification.
+- Saved that actual issue locally. Restarted the application process and compared the complete `/api/saved` response byte-for-byte: identical. No data reset or replacement used.
+
+## UI design extension (October 16)
+
+- Read current frontend and approved documents before writing `UI_DESIGN.md`; specification now defines tokens, navigation, responsive layout, accessibility, states, honest data boundaries and implementation order.
+- User-requested Geist/Lucide and selected shadcn primitive dependencies installed into the project: 30 packages added, npm audit reported zero vulnerabilities at that point. No component catalog or new backend service.
+- UI implementation and screenshot QA pending. Earnings, notes and Kanban remain outside P0; no fabricated metrics or nonworking controls will populate the screens.
 
 ## Remaining milestones
 
-### Portability review requested October 16
-
-- Retained one Next app and local SQLite. Added only the requested small inference interface with one Ollama adapter, configurable loopback/optional secured remote origin and supported installed Gemma model enumeration.
-- Replaced fixed developer runtime/port assumptions with environment configuration; current development-only .env.local selects another loopback port and is ignored. Public docs use OS-neutral commands and explicit macOS/Linux/PowerShell examples.
-- Corrected Node minimum rationale: installed Next requires >=20.9, Vitest requires ^22.12/^24/>=26; Node 22.9 is unsuitable. The SQLite API smoke and initial eight tests/typecheck passed with Node 24.14; recommended 24.22 is checksum-verified. Revised suite/build still pending on both; no Windows/Linux or low-memory test has run.
-- Five audit reports were in the Next lint preset's development-only glob chain. Removing the preset produced zero reports at that point; compatible standalone lint dependencies are being installed. No forced downgrade/peer bypass used.
-- Gemma pull on installed Ollama 0.23.2 failed with registry HTTP 412 (newer runtime required). Official Ollama 0.40.5 archive digest verified; isolated server and actual inference remain pending. Earlier start commands conflicted with a supervised older runtime, which is now left alone.
-- No timings/benchmark numbers have been measured yet. Cross-platform CI and smaller-memory hardware remain targets, not claimed evidence.
-
-M2 discovery/ranking; M3 evidence/pipeline; M4 grounded Gemma; M5 reliability/CI; M6 demo/source documentation. All pending verified M1 exit.
+M4 grounded Gemma analysis; M5 integrated reliability/visual QA/CI; M6 demo and open-source documentation. Windows/Linux, low-memory hardware and remote secured Ollama remain untested. No push, deployment or submission authorized.
