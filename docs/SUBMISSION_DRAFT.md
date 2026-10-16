@@ -12,7 +12,7 @@ BountyPilot helps a developer investigate public GitHub issues that mention paid
 
 The problem is uncertainty: a bounty label does not establish available funds, eligibility, who can authorize payment or what counts as acceptance. The interface puts those gaps beside the opportunity before a developer invests time.
 
-Independent developers and freelancers are the intended customers. A plausible first paid offering is setup/support around the MIT-licensed core. Demand and willingness to pay remain unvalidated; there are no paying-user or earnings claims.
+Independent developers and freelancers are the intended customers. A plausible first paid offering is setup/support around the AGPL-3.0-only core. Demand and willingness to pay remain unvalidated; there are no paying-user or earnings claims.
 
 ## Demo
 
@@ -20,7 +20,7 @@ Local recording and screenshots are generated under `.cache/demo`; see `capture.
 
 ## Code
 
-Original code is MIT licensed. Repository publication and a public URL are pending owner approval. Gemma weights, personal data, credentials, caches and live source snapshots are excluded. Model terms and source-author rights remain separate.
+Original code is AGPL-3.0-only licensed. Repository publication and a public URL are pending owner approval. Gemma weights, personal data, credentials, caches and live source snapshots are excluded. Model terms and source-author rights remain separate.
 
 ## How I Built It
 

@@ -41,7 +41,7 @@ The official challenge URL was supplied by the user and researched. Its requirem
 
 Maintainers are secondary stakeholders: the product must avoid spam, automatic comments, unsolicited outreach, or automatic issue claims.
 
-Business hypothesis: developers may pay for time saved and useful curation. Keep the self-hosted core MIT licensed. Validate a possible paid setup/support service first; evaluate optional hosted convenience or curated alerts only after actual demand, with separate authentication and data design. No billing, subscriptions, affiliate links, referral ranking, or revenue projections in P0. Ask testers what they would pay; do not present interest as revenue.
+Business hypothesis: developers may pay for time saved and useful curation. Release revision: the owner selected AGPL-3.0-only for original code; retain third-party terms. Validate a possible paid setup/support service first; evaluate optional hosted convenience or curated alerts only after actual demand, with separate authentication and data design. No billing, subscriptions, affiliate links, referral ranking, or revenue projections in P0. Ask testers what they would pay; do not present interest as revenue.
 
 ## 4. Journeys
 

@@ -11,3 +11,11 @@ SQLite and backups are plaintext, protected by filesystem/OS permissions. Config
 If you find a vulnerability, do not post credentials, a personal database or private source data in a public issue. When this repository is published, use its private security advisory channel if enabled; otherwise ask the maintainer for a private reporting channel. No private contact address or vulnerability-reporting service has been invented for this local repository.
 
 Known limits: model hallucinations and prompt injection are not solved by prompting; validation and human review reduce consequences. Gemma 1B failed the current grounded evaluation and is experimental. Cross-platform CI configuration and secure remote configuration tests do not prove native/hardware/remote deployment compatibility. See the progress record for actual checks.
+
+## Release and disclosure policy
+
+The current 0.1.x source line is the only maintained line. No response-time SLA, security certification or public hosting support is promised. Check RELEASE_VERIFICATION.md for the actual tested environment and advisory-check date; an empty npm audit result is not a guarantee of safety.
+
+After publication, use GitHub's **Report a vulnerability** only if private vulnerability reporting is actually enabled. Otherwise request a private channel from the maintainer without including exploit details. Do not assume a dedicated private address exists. Never include .env files, tokens, personal databases, source-comment contact details or unredacted logs/screenshots in reports.
+
+Source publication does not authorize deployment. A hosted or multi-user service needs separate authentication, isolation, abuse/resource controls and model-license review. Revoke any key pasted into chat or public material; deleting a copy does not revoke it. No cloud API key is used by this release.

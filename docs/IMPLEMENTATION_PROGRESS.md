@@ -119,3 +119,13 @@ M6 live recording still awaits the provider's indicated reset; failed attempts a
 - Latest lint/typecheck and all **77** deterministic tests passed; last production browser suite **6 passed**; final production build passed. Plaintext SQLite, preserved stale analyses, heuristic evidence/ranking and local single-process scope remain intentional limitations. Linux/macOS/Windows CI is configured, but only the recorded Mac environment was actually exercised.
 - Preferred 4B P0 journey and local delivery Definition of Done are demonstrated. 1B remains a failed-quality experimental option; no lower-memory, remote-provider or additional-platform compatibility is asserted. Earnings tracking, notes, Kanban, authentication/billing/hosted infrastructure remain outside P0.
 - No push, deployment, publication or submission. See local Git history for the milestone commits; the repository stays ready for owner review.
+
+## First public FOSS release preparation — October 16
+
+Owner confirmed original-code ownership/release authority, copyright **Rishav Raj Singh**, and **AGPL-3.0-only**. Current source/package/docs now reflect that choice; upstream MIT/OFL/ISC and other dependency rights remain. Historical MIT grants and corporate Git commit metadata are unchanged. No remote, repository, tag, release, deployment or DEV article was created.
+
+Prepared README/community templates, retained legal texts and in-app source/license access; six inspected genuine screenshots exclude a full discussion containing contact details. Pinned existing CI actions to verified v6 commit SHAs with read-only permissions and no checkout credential persistence. Added two focused benchmark redirect/timeout tests; no core AI/storage behavior or dependency changed.
+
+Current verification: **79 deterministic tests**, **7 Chromium checks**, lint/types/production build and dependency checks passed on macOS arm64 / Node 24.22.0. A separate source-only installation used fresh npm/browser downloads and its own database, passed the same gates, and exercised actual GitHub/local Gemma. Two issue-61 analyses failed validation; issue 60 completed in **11.394 seconds**, saved and survived reload, process restart and separate restored-copy integrity/FK/table comparisons. Invalid results were never persisted. Historical corpus measurements are not rerun/relabelled as current results.
+
+Full evidence, warnings, failed verification-script waits and remaining publication prerequisites: RELEASE_VERIFICATION.md. Publication requires the separate explicit approval requested after local preparation.

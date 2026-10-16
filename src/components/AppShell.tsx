@@ -81,7 +81,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               {destinations.find((d) => d.href === pathname)?.label || 'Opportunity'}
             </span>
           </span>
-          <a href="https://github.com" target="_blank" rel="noreferrer" className="subtle-link">
+          <a href="https://github.com/RishavRajSingh44/BountyPilot" target="_blank" rel="noreferrer" className="subtle-link">
             GitHub source <ArrowUpRight aria-hidden="true" />
           </a>
         </header>
@@ -90,7 +90,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </main>
         <footer>
           Built for careful opportunity discovery. Reward claims are unverified; confirm terms
-          before starting work.
+          before starting work.{' '}
+          <Link href="/legal">License, notices and source · AGPL-3.0-only</Link>
         </footer>
       </div>
     </div>

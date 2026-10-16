@@ -45,7 +45,7 @@ Follow the current official template, with concrete evidence:
 
 1. **What I Built:** target developer, current workflow pain, paying-user hypothesis and exact implemented scope.
 2. **Demo:** recording showing the complete journey; label live data, edited waits and snapshot dates.
-3. **Code:** repository link with MIT license, setup steps, test commands and limitations.
+3. **Code:** repository link with AGPL-3.0-only license, setup steps, test commands and limitations.
 4. **How I Built It:** one Next.js app, SQLite, GitHub REST, local Gemma; explain grounded source handling and why the Python service was unnecessary.
 5. **Why Does Open Innovation Matter?:** locally inspectable prompts/model behavior, offline analysis of saved data, no required cloud inference billing, ability to run another installed Gemma size. Pair each claim with an actual measurement/demo and its limit.
 6. **My First User (if real):** observed task/time, feedback, willingness-to-pay answer and what changed; no fictional interview or implied sale.
@@ -62,7 +62,7 @@ Measure task completion/time and confusion about paid claims. Record setup effor
 
 ## 6. Open-source contribution and release approach
 
-After approval, add MIT LICENSE for original app code; README with architecture/setup/test commands and model/storage privacy limits; CONTRIBUTING with small reproducible changes; SECURITY with responsible reporting guidance. Keep GitHub/model terms separate, retain upstream notices and attribute non-trivial reused work. Do not bundle Gemma weights, real private data or unlicensed full discussion fixtures.
+After approval, add AGPL-3.0-only LICENSE for original app code; README with architecture/setup/test commands and model/storage privacy limits; CONTRIBUTING with small reproducible changes; SECURITY with responsible reporting guidance. Keep GitHub/model terms separate, retain upstream notices and attribute non-trivial reused work. Do not bundle Gemma weights, real private data or unlicensed full discussion fixtures.
 
 Use one package lockfile and pinned runtime, small readable modules and synthetic tests so contributors can work without GPU/model downloads. Label focused issues such as a missing error fixture or accessibility improvement. Require a reproduction and relevant test for bugs; avoid lengthy templates/governance/CLA bureaucracy for a new small project. CI runs without secrets or paid services.
 

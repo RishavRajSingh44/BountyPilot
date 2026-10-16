@@ -77,3 +77,47 @@ Final prompt recheck: v4 produced 12/12 valid first-attempt 4B results; manual a
    - **If we skip it:** Users with reduced contrast sensitivity have more difficulty identifying editable fields.
 
 Final verdict: Ship the demonstrated local 4B P0 workflow with the recorded interpretation/hardware limitations. All seven scoped findings have a fix or explicit tested mitigation. Formal accessibility certification, native Windows/Linux/low-memory and live secured-remote checks were not performed.
+
+## First public source release — Ponytail FULL review and audit
+
+### Change review
+
+What this change does: prepares the existing local application for an AGPL-3.0-only source release. It adds retained legal texts/source access, professional setup/community documentation, inspected bounded screenshots, stronger ignore rules and pinned CI actions. Core GitHub, inference, ranking and database logic are unchanged. Assumed load: one trusted local user, one process, up to 500 saved items and one active analysis.
+
+### Must fix — resolved before publication candidate
+
+1. **Full-page demo media exposes a commenter's contact email.**
+   - **What this is:** A genuine public issue discussion appears in an older ignored demo capture.
+   - **Problem:** Publishing that full-page image would unnecessarily republish personal contact details.
+   - **Fix:** Exclude raw recordings/full discussion images; publish an inspected top viewport and isolated analysis panel with documented provenance. Replace synthetic Settings QA media with a real model inventory.
+   - **If we skip it:** README assets expose personal information. Fixed before staging the selected images.
+
+2. **Changing the root license can discard the copied component's license text.**
+   - **What this is:** The original short notices relied on the root MIT text for adapted shadcn/ui controls.
+   - **Problem:** An AGPL root alone does not preserve that third-party permission notice.
+   - **Fix:** Retain complete shadcn MIT, Geist OFL and Lucide/Feather texts independently; expose them through Legal. Keep model and external-content terms separate. The owner confirmed original-code release authority/name and AGPL-3.0-only.
+   - **If we skip it:** Attribution/compliance is incomplete. Fixed; binary/container redistribution still requires its own review.
+
+### Should fix — resolved
+
+3. **Optional model probe can wait indefinitely for readiness.**
+   - **What this is:** Two GETs in scripts/probe-model.mjs had no timeout; fetch also followed redirects.
+   - **Problem:** A stalled readiness endpoint could hang the advertised setup check, and redirects could leave the configured endpoint.
+   - **Fix:** Add 2-second GET deadlines and reject redirects, retaining the existing generation deadline. Two subprocess tests prove timeout/redirect rejection before inference.
+   - **If we skip it:** The setup probe can hang or follow an unintended service. Fixed; application inference logic is unchanged.
+
+Verdict: local source-preparation changes pass the recorded tests. Publication still requires explicit approval and public GitHub authentication. No line/dependency savings claim; no new runtime dependency was added.
+
+### Repository audit
+
+What this repo does: searches real public GitHub issues, stores bounded attributed snapshots, computes evidence/ranking, validates local Gemma interpretation and retains a private pipeline. Assumed load remains one trusted user/process; public hosting or multi-user isolation is unsupported.
+
+Read/trace review covered Host/Origin/fetch-metadata checks, production CSP and escaped rendering, route input/body limits, fixed GitHub destinations/redirects/timeouts, server-only credentials, configured remote-Ollama restrictions, strict model/citation validation, bounded cache/source budgets, prepared SQL, success-only transactional storage, refresh races, migrations and restore behavior. Reviewed shared callers/config/tests for the changed legal route and benchmark script. No unresolved critical/high security or data-loss defect was found within this scope; this is not a penetration test or legal certification.
+
+**Model limitation confirmed:** two clean-install requests for the updated live issue #61 failed AI_INVALID_RESPONSE; the validator correctly stored neither result. A different real issue #60 completed with local 4B in 11.394 seconds, saved, and survived browser reload, process restart and restored-copy verification. Historical 12/12 schema validity is not a guarantee for evolving discussions. Preserve this visible uncertainty; do not weaken exact-quote validation or fabricate fallback output.
+
+Git history scan found no credential patterns, compared local secret values, personal source data or generated artifacts in six baseline commits/168 unique blobs. Existing author/committer corporate email and historic MIT snapshots remain in history; no rewrite was authorized. Documentation records this publication risk. The ignored cloud-key configuration is unused and excluded; no cloud API was called.
+
+Verdict: source candidate prepared with disclosed inference failures and publication prerequisites. Keep Gemma as the default and retain human evidence review. Do not publish an operational-reliability guarantee.
+
+Not checked: exhaustive copied-code provenance, binary-by-binary licensing/source offers, employer agreements beyond the owner's confirmation, formal accessibility/penetration testing, native Windows/Linux, lower-memory hardware, live secure remote Ollama, or GitHub CI/rendering before publication. No speculative provider/framework/authentication infrastructure was added.

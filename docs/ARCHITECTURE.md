@@ -244,9 +244,9 @@ Operating-cost claim: no required per-request AI API charge and no hosted databa
 
 ## 14. Open source and licensing
 
-Recommend MIT for original application code, retaining upstream notices. After approval add LICENSE, README, CONTRIBUTING and SECURITY documents, issue/PR guidance and CI; use small scoped issues and constructive reviews. No CLA or plugin system in MVP. Do not encourage low-effort challenge PRs.
+Release revision: AGPL-3.0-only for original application code, retaining upstream notices. After approval add LICENSE, README, CONTRIBUTING and SECURITY documents, issue/PR guidance and CI; use small scoped issues and constructive reviews. DCO sign-off records provenance; no CLA or proprietary relicensing grant is implied. No plugin system in MVP. Do not encourage low-effort challenge PRs.
 
-Gemma is open-weight under separate terms, not covered by the application's MIT license. Link its terms and prohibit bundling weights into the repo or app package; users obtain weights separately. Distribution/hosted use requires reviewing the applicable obligations ([Gemma terms](https://ai.google.dev/gemma/terms)). Repository content may have its own rights: attribution/source links and minimal excerpts are required; public availability is not blanket MIT permission. Prefer synthetic fixtures and short attributed live-demo quotes; follow GitHub's API/content policies ([GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service)).
+Gemma is open-weight under separate terms, not covered by the application's AGPL license. Link its terms and prohibit bundling weights into the repo or app package; users obtain weights separately. Distribution/hosted use requires reviewing the applicable obligations ([Gemma terms](https://ai.google.dev/gemma/terms)). Repository content may have its own rights: attribution/source links and minimal excerpts are required; public availability is not blanket MIT permission. Prefer synthetic fixtures and short attributed live-demo quotes; follow GitHub's API/content policies ([GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service)).
 
 
 ### Implemented UI and model-quality constraints (October 16)

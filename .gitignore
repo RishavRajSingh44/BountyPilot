@@ -10,3 +10,17 @@ playwright-report/
 *.tsbuildinfo
 next-env.d.ts
 node-releases.json
+.DS_Store
+*.log
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.gguf
+*.safetensors
+*.pem
+*.key
+*.webm
+tmp/
+temp/
+coverage/
