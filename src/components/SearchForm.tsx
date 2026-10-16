@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Compass, LoaderCircle, Search } from 'lucide-react';
 import type { SearchResult } from '@/lib/schemas';
 import { OpportunityCard } from './OpportunityCard';
@@ -12,6 +12,7 @@ export function SearchForm() {
   const [sort, setSort] = useState('relevance');
   const controller = useRef<AbortController | null>(null);
   const form = useRef<HTMLFormElement>(null);
+  useEffect(() => () => controller.current?.abort(), []);
   async function search(page: number) {
     if (!form.current) return;
     controller.current?.abort();

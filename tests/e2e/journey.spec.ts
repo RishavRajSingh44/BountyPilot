@@ -35,11 +35,19 @@ test('synthetic full journey uses real analysis validation, SQLite persistence a
   await page.getByRole('button', { name: 'Remove from pipeline', exact: true }).click();
   await expect(page.getByRole('alertdialog')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Keep saved' })).toBeFocused();
+  await page.screenshot({
+    path: resolve(process.env.BOUNTYPILOT_CACHE_DIR || '.cache', 'visual', 'confirmation-dark.png')
+  });
   await page.keyboard.press('Escape');
   await expect(page.getByRole('alertdialog')).not.toBeVisible();
   await expect(
     page.getByRole('button', { name: 'Remove from pipeline', exact: true })
   ).toBeFocused();
+  await page.getByRole('button', { name: 'Remove from pipeline', exact: true }).click();
+  await page.getByRole('button', { name: 'Remove opportunity', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Save opportunity', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Save opportunity', exact: true }).click();
+  await expect(page.getByText('Saved to your local pipeline.')).toBeVisible();
 });
 test('responsive themes, keyboard navigation and screenshot QA', async ({ page }) => {
   const directory = resolve(process.env.BOUNTYPILOT_CACHE_DIR || '.cache', 'visual');
@@ -79,4 +87,53 @@ test('responsive themes, keyboard navigation and screenshot QA', async ({ page }
       }
     }
   }
+});
+
+test('search loading, result filters, empty and retry states have visible feedback', async ({
+  page
+}) => {
+  const directory = resolve(process.env.BOUNTYPILOT_CACHE_DIR || '.cache', 'visual');
+  mkdirSync(directory, { recursive: true });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  let release: () => void = () => {};
+  const pending = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  let calls = 0;
+  await page.route('**/api/opportunities?*', async (route) => {
+    calls++;
+    if (calls === 1) {
+      await pending;
+      await route.fulfill({ json: uiSearch });
+    } else
+      await route.fulfill({
+        status: 429,
+        json: {
+          error: {
+            message: 'Synthetic test: GitHub quota exhausted.',
+            retryAt: '2030-01-01T00:00:00Z'
+          }
+        }
+      });
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Search GitHub', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Cancel search' })).toBeVisible();
+  await page.screenshot({ path: resolve(directory, 'search-loading.png') });
+  release();
+  await expect(page.getByRole('heading', { name: '1 provider matches' })).toBeVisible();
+  await page.screenshot({ path: resolve(directory, 'search-results.png'), fullPage: true });
+  await page.getByRole('combobox', { name: 'Evidence', exact: true }).selectOption('unknown');
+  await expect(
+    page.getByRole('heading', { name: 'No results with this evidence filter' })
+  ).toBeVisible();
+  await page.screenshot({ path: resolve(directory, 'search-filter-empty.png') });
+  await page.getByRole('combobox', { name: 'Evidence', exact: true }).selectOption('all');
+  await page.getByRole('combobox', { name: 'Sort', exact: true }).selectOption('recent');
+  await expect(
+    page.getByRole('link', { name: 'Synthetic fixture: fix CSV parser escaping' })
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Search GitHub', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Retry search' })).toBeVisible();
+  await page.screenshot({ path: resolve(directory, 'search-error.png') });
 });
