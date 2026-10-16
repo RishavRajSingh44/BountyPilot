@@ -52,3 +52,28 @@ Not checked: native Windows/Linux, low-memory hardware, live secured remote infe
 ## Recheck after fixes
 
 Findings 1 and 2 are fixed in the shared callers. The new cancellation regression proves the already-aborted signal reaches the bounded upstream call and avoids a retry. The model warning now uses a separate description with a unique ID. Findings 3/4 retain the tested mitigation and visible limitations above. Review verdict: ship the demonstrated single-user local 4B workflow after the final gates recorded in IMPLEMENTATION_PROGRESS.md. No unresolved critical/high data-loss or trust-boundary finding remains from this scoped review.
+
+## Should fix — final live-flow findings
+
+5. **A primary detail quota also blocked unrelated searches** (`src/lib/server/github.ts`).
+   - **What this is:** GitHub uses separate resource families for primary quotas; secondary limits can apply more broadly.
+   - **Problem:** The real diagnostic showed core remaining 0 and search remaining 10, while the single cooldown blocked both.
+   - **Fix:** Split primary cooldowns by the two used resource families, retain shared secondary/unspecified backoff, and add a regression. The exhausted core family was not retried before its reset. See [GitHub's documentation](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api).
+   - **If we skip it:** Users unnecessarily lose discovery while detail retrieval is paused.
+
+6. **Prompt coverage described retrieval but omitted the smaller AI input** (`src/lib/server/analysis.ts`).
+   - **What this is:** The model sees bounded excerpts from a potentially larger retrieved discussion.
+   - **Problem:** If all 100 comments were retrieved but only some fit in the prompt, retrieval counts alone could suggest it saw them all.
+   - **Fix:** Add the already-computed AI coverage metadata, bump the prompt version and rerun the actual 4B corpus. Preserve previous analyses with their original sources and stale warning.
+   - **If we skip it:** A generated explanation may overstate how much evidence it considered.
+
+Final prompt recheck: v4 produced 12/12 valid first-attempt 4B results; manual assessment 11/12 useful. The truncation risk now cites the explicit missing-terms sentence. Closure/assignment omission and profile echo remain known interpretation limits; the deterministic source UI and review requirement remain essential. Added a measured prompt-token pressure guard with a regression preserving the previous result. Actual v4 corpus prompt counts (552–1,329) are below its conservative threshold. Findings 5/6 are fixed and tested.
+
+
+7. **Input boundaries were too subtle in the suggested palette** (`src/app/globals.css`).
+   - **What this is:** The initial design reused decorative panel borders for interactive input boundaries.
+   - **Problem:** Calculated dark border/background contrast was 1.52:1; reduced placeholder opacity also weakened light-mode text.
+   - **Fix:** Add a distinct control-border token (3.56:1 dark surface, 3.48:1 light surface) and retain full secondary-text color for placeholders. Refreshed dark/light screenshots were captured and inspected after the correction.
+   - **If we skip it:** Users with reduced contrast sensitivity have more difficulty identifying editable fields.
+
+Final verdict: Ship the demonstrated local 4B P0 workflow with the recorded interpretation/hardware limitations. All seven scoped findings have a fix or explicit tested mitigation. Formal accessibility certification, native Windows/Linux/low-memory and live secured-remote checks were not performed.

@@ -5,7 +5,14 @@ export type GenerationRequest = {
   format: Record<string, unknown>;
   options: { temperature: number; num_ctx: number; num_predict: number };
 };
-export type Generation = { content: string; totalDuration?: number; loadDuration?: number; tokens?: number; generationDuration?: number };
+export type Generation = {
+  content: string;
+  promptTokens?: number;
+  totalDuration?: number;
+  loadDuration?: number;
+  tokens?: number;
+  generationDuration?: number;
+};
 // One adapter today; keep provider transport out of analysis logic.
 export interface InferenceProvider {
   mode: 'local' | 'remote';

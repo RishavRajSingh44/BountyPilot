@@ -1,5 +1,5 @@
 import { z } from 'zod';
-export const analysisPromptVersion = 'v3';
+export const analysisPromptVersion = 'v4';
 export const modelTag = z.enum(['gemma3:4b', 'gemma3:1b']);
 export const healthSchema = z.object({
   app: z.literal('ready'),

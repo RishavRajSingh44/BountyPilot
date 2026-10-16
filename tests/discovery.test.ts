@@ -219,3 +219,28 @@ it('propagates search cancellation to the bounded GitHub request', async () => {
   ).rejects.toMatchObject({ code: 'GITHUB_TIMEOUT' });
   expect(fetch).toHaveBeenCalledTimes(1);
 });
+
+it('keeps primary core quota exhaustion separate from search quota', async () => {
+  const mock = vi
+    .fn()
+    .mockResolvedValueOnce(
+      new Response('{}', {
+        status: 403,
+        headers: {
+          'x-ratelimit-remaining': '0',
+          'x-ratelimit-reset': String(Math.floor(Date.now() / 1000) + 3600)
+        }
+      })
+    )
+    .mockResolvedValueOnce(response());
+  vi.stubGlobal('fetch', mock);
+  const { githubGet, searchOpportunities } = await import('@/lib/server/github');
+  await expect(githubGet('/repos/synthetic-owner/fixture')).rejects.toMatchObject({
+    code: 'GITHUB_RATE_LIMIT'
+  });
+  expect((await searchOpportunities({})).items).toHaveLength(1);
+  await expect(githubGet('/repos/synthetic-owner/fixture')).rejects.toMatchObject({
+    code: 'GITHUB_RATE_LIMIT'
+  });
+  expect(mock).toHaveBeenCalledTimes(2);
+});

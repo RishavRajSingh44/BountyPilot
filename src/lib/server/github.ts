@@ -66,13 +66,15 @@ export function compileQuery(input: SearchInput) {
     .join(' ');
 }
 type Context = { signal: AbortSignal; retries: number };
-let cooldown = 0;
+const cooldowns = { core: 0, search: 0, all: 0 };
 export async function githubGet(
   path: string,
   context: Context = { signal: AbortSignal.timeout(25000), retries: 1 }
 ): Promise<{ value: unknown; remaining: number | null; resetAt: string | null }> {
   if (!path.startsWith('/') || path.startsWith('//'))
     throw new AppError('INVALID_PATH', 'Invalid provider path.', 400);
+  const resource = path.startsWith('/search/') ? 'search' : 'core';
+  const cooldown = Math.max(cooldowns[resource], cooldowns.all);
   if (cooldown > Date.now())
     throw new AppError(
       'GITHUB_RATE_LIMIT',
@@ -124,13 +126,19 @@ export async function githubGet(
               ? Date.now() + Number(retry) * 1000
               : Date.parse(retry)
             : Number(response.headers.get('x-ratelimit-reset')) * 1000;
-          cooldown = Number.isFinite(until) && until > Date.now() ? until : Date.now() + 60000;
+          const retryAt = Number.isFinite(until) && until > Date.now() ? until : Date.now() + 60000;
+          const bucket =
+            response.headers.get('x-ratelimit-remaining') === '0' &&
+            !/secondary/i.test(body?.message || '')
+              ? resource
+              : 'all';
+          cooldowns[bucket] = retryAt;
           throw new AppError(
             'GITHUB_RATE_LIMIT',
             'GitHub quota is exhausted. Retry at the indicated time.',
             429,
             true,
-            new Date(cooldown).toISOString()
+            new Date(retryAt).toISOString()
           );
         }
         throw new AppError(

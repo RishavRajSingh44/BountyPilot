@@ -145,7 +145,13 @@ export async function analyzeOpportunity(
           assigned: snapshot.issue.assignees,
           repositoryArchived: snapshot.repository.archived,
           rewardEvidence: snapshot.evidence.state,
-          coverage: sources.retrieval,
+          retrievalCoverage: sources.retrieval,
+          analysisCoverage: {
+            inputCharacters: sources.inputCharacters,
+            availableSources: sources.availableSources,
+            includedExcerptRecords: sources.sources.length,
+            omittedOrShortened: sources.omittedOrShortened
+          },
           sourceExcerpts: sources.sources.map((s) => ({
             sourceId: s.id,
             kind: s.kind,
@@ -176,6 +182,15 @@ export async function analyzeOpportunity(
         signal
       );
       signal.throwIfAborted();
+      if (
+        generated.promptTokens !== undefined &&
+        generated.promptTokens > inferenceSettings.num_ctx - inferenceSettings.num_predict - 256
+      )
+        throw new AppError(
+          'AI_CONTEXT_TOO_LARGE',
+          'This discussion approaches the model context limit. Try an issue with shorter text; the previous result is preserved.',
+          422
+        );
       try {
         result = validateAnalysis(JSON.parse(generated.content), sources);
         break;

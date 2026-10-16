@@ -6,6 +6,7 @@
   --surface: #151d28;
   --raised: #1b2634;
   --border: #293444;
+  --control-border: #64748b;
   --text: #f3f6fa;
   --muted: #94a3b8;
   --accent: #5fe1cc;
@@ -21,6 +22,7 @@
   --surface: #fff;
   --raised: #edf2f6;
   --border: #d2dae3;
+  --control-border: #7b8ba0;
   --text: #172232;
   --muted: #536477;
   --accent: #08786b;
@@ -360,7 +362,7 @@ button:not([class]) {
 }
 .button-outline {
   background: var(--surface);
-  border-color: var(--border);
+  border-color: var(--control-border);
   color: var(--text);
 }
 .button-ghost {
@@ -402,14 +404,14 @@ textarea {
   width: 100%;
   background: var(--bg);
   color: var(--text);
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-border);
   border-radius: 6px;
   padding: 9px 12px;
   min-width: 0;
 }
 input::placeholder {
   color: var(--muted);
-  opacity: 0.75;
+  opacity: 1;
 }
 select {
   padding-right: 28px;
@@ -1170,5 +1172,23 @@ blockquote a {
   }
   .search-filters {
     grid-template-columns: 1fr;
+  }
+}
+
+.opportunity-row .feedback:empty {
+  display: none;
+}
+.opportunity-row .tags {
+  display: inline-flex;
+  margin: 0 0 0 8px;
+  vertical-align: middle;
+}
+.opportunity-row .score-details {
+  margin-top: 8px;
+}
+@media (max-width: 767px) {
+  .opportunity-row .tags {
+    display: flex;
+    margin: 8px 0;
   }
 }

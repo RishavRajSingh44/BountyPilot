@@ -57,15 +57,13 @@ beforeEach(async () => {
   generate = async () => JSON.stringify(output);
   vi.stubGlobal(
     'fetch',
-    vi
-      .fn()
-      .mockImplementation(async (url: string, init?: RequestInit) =>
-        url.endsWith('/api/tags')
-          ? Response.json({
-              models: [{ name: 'gemma3:4b', digest: 'synthetic-digest', size: 100 }]
-            })
-          : Response.json({ message: { content: await generate(init!.signal as AbortSignal) } })
-      )
+    vi.fn().mockImplementation(async (url: string, init?: RequestInit) =>
+      url.endsWith('/api/tags')
+        ? Response.json({
+            models: [{ name: 'gemma3:4b', digest: 'synthetic-digest', size: 100 }]
+          })
+        : Response.json({ message: { content: await generate(init!.signal as AbortSignal) } })
+    )
   );
 });
 afterEach(() => {
@@ -220,4 +218,41 @@ describe('bounded grounded analysis', () => {
     await expect(run()).rejects.toMatchObject({ code: 'AI_MODEL_MISSING' });
     expect(store.getAnalysis('123')).toBeNull();
   });
+});
+
+it('tells the model when retrieved sources exceed its own input budget', async () => {
+  snapshot.sources.push({
+    ...snapshot.sources[0],
+    id: 'comment:99',
+    kind: 'comment',
+    text: 'Synthetic long discussion. '.repeat(1500),
+    truncated: true
+  });
+  store.storeSnapshot(snapshot);
+  await run();
+  const call = vi.mocked(fetch).mock.calls.find(([url]) => String(url).endsWith('/api/chat'))!;
+  const prompt = JSON.parse(
+    JSON.parse(String(call[1]!.body)).messages.find((m: { role: string }) => m.role === 'user')
+      .content
+  );
+  expect(prompt.analysisCoverage.omittedOrShortened).toBe(true);
+  expect(prompt.analysisCoverage.availableSources).toBe(snapshot.sources.length);
+  expect(prompt.retrievalCoverage).toEqual(snapshot.coverage);
+});
+
+it('rejects measured context pressure without retrying or replacing the previous analysis', async () => {
+  const first = await run();
+  snapshot.hash = 'new-context';
+  store.storeSnapshot(snapshot);
+  const mock = vi
+    .fn()
+    .mockImplementation(async (url: string) =>
+      url.endsWith('/api/tags')
+        ? Response.json({ models: [{ name: 'gemma3:4b', digest: 'synthetic-digest' }] })
+        : Response.json({ message: { content: JSON.stringify(output) }, prompt_eval_count: 8000 })
+    );
+  vi.stubGlobal('fetch', mock);
+  await expect(run()).rejects.toMatchObject({ code: 'AI_CONTEXT_TOO_LARGE', status: 422 });
+  expect(mock).toHaveBeenCalledTimes(2);
+  expect(store.getAnalysis('123')).toEqual(first.analysis);
 });

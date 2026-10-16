@@ -16,7 +16,8 @@ Content hierarchy: repository/source → issue title → evidence state → loca
 | Navigation | `#0E1520` | `#FFFFFF` |
 | Surface | `#151D28` | `#FFFFFF` |
 | Raised / hover | `#1B2634` | `#EDF2F6` |
-| Border | `#293444` | `#D2DAE3` |
+| Decorative border | `#293444` | `#D2DAE3` |
+| Interactive control border | `#64748B` | `#7B8BA0` |
 | Primary text | `#F3F6FA` | `#172232` |
 | Secondary text | `#94A3B8` | `#536477` |
 | Accent / focus | `#5FE1CC` | `#08786B` |
@@ -59,3 +60,11 @@ Loading uses a small spinner and text, `aria-busy` and polite announcements. Kee
 5. Run M5 security/recovery/full-suite checks, then M6 documentation/demo preparation. UI work does not authorize publishing or introduce hosted infrastructure.
 
 Visual QA will capture and inspect actual screenshots at desktop 1440×1000, tablet 834×1112 and mobile 390×844, in dark and light themes. Check overflow, hierarchy, alignment, contrast, focus and responsive navigation. Exercise empty/loading/success/error states with explicitly labeled automated fixtures as well as the real GitHub/local-model journey. Store screenshots under ignored `.cache/visual/`; record exact inspected files and any unavailable checks in IMPLEMENTATION_PROGRESS.md. Screenshots and CI/platform compatibility are evidence only after actually run.
+
+
+## Implemented review notes
+
+The shared shell and five views are implemented. QA captured 35 images: the 30-view matrix plus five asynchronous/confirmation states. Inspected the screen matrix in both themes at all three sizes and the five state images; corrected section spacing, mobile stat baselines and narrow form stacking. Exact file locations and test results are in IMPLEMENTATION_PROGRESS.md. Live data/media is separate from the explicitly synthetic automated fixtures. No unsupported earnings, notes, profile persistence or Kanban controls were added. 1B model selection carries the actual failed quality-gate warning via an accessible description.
+
+
+Contrast follow-up: interactive boundaries use a separate token from decorative panel borders. Calculated control-border contrast is 3.56:1 against the dark surface and 3.48:1 against light white surfaces (3.24:1 against the light page). Placeholder text uses the full secondary-text color; reduced opacity weakened light-mode text. This supports the [W3C non-text contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html); it is not a formal accessibility certification.

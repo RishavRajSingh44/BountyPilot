@@ -129,3 +129,16 @@ Plan one GitHub Actions workflow: checkout with minimal permissions; pinned Node
 Include an OS matrix (ubuntu-latest, macos-latest, windows-latest), Node 24.14.0 and 24.x, storage/path/configuration checks and production build. Chromium E2E runs at least on Linux, with other OSs enabled where reliable; GPU/model downloads are never CI requirements. CI configuration is not proof of a successful run. Use read-only workflow permissions, pinned reviewed action versions (prefer commit SHA), no `pull_request_target` execution of contributor code, and no model/token secrets in fork PR tests. Triage dependency audit findings; do not automatically upgrade major versions or suppress a critical exploitable finding to make CI green. Upload short-lived test reports only with synthetic data and no secrets. Keep branch protection/repository publication a separate user-authorized repository configuration step.
 
 Each milestone report states actual command, result and skipped checks. Final release requires all implemented P0 checks passing, live journey/model evaluation, no unresolved critical/high security or data-loss findings, a successful restore drill, and accurate known limitations. Tests described here are planned work, not completed evidence.
+
+## Implemented checks and evidence (October 16)
+
+- `runtime.test.ts`, `inference.test.ts`: migration/rollback/reopen, configurable paths, Host/Origin, provider bounds/configuration/model detection and safe errors.
+- `discovery.test.ts`: query restrictions, provider behavior/cache/quota, normalization, exact evidence, hypothetical/negative/conflicting payment language, score rules and cancellation propagation.
+- `storage.test.ts`: discussion bounds/races, exact provenance, failed-refresh preservation, private/PR refusal, saved limits/pruning, API contracts and React-safe plain return objects.
+- `analysis.test.ts`: exact quote/reference/schema checks, source budgets, bounded retry/cache/guard/cancel/timeout, refresh race, last-good preservation and cross-process analysis persistence.
+- `recovery.test.ts`: 500-item operations, raw measured timings, checkpointed restore/integrity/FKs and analysis/status preservation. Also performed the separate stopped real-database restore described in IMPLEMENTATION_PROGRESS.md.
+- Playwright `discovery.spec.ts` and `journey.spec.ts`: five production-browser checks, synthetic search/provider inputs with actual domain validation/SQLite, primary journey/status/reload/removal confirmation, responsive theme matrix, focus and loading/results/filtered-empty/quota states.
+- `live-model.test.ts`: opt-in real Ollama corpus, separate DB and captured actual generation metadata. Default test runs skip its 12 cases; the actual 4B pass and 1B failures are separately recorded. Human semantic evaluation remains required.
+- `scripts/record-demo.mjs`: assert-based actual live flow and local media capture, no mocked requests or external publication.
+
+Actual counts/commands and remaining untested areas live in IMPLEMENTATION_PROGRESS.md. Screenshot capture is not by itself visual inspection or a formal accessibility audit. Native Windows/Linux/low-memory and live authenticated-remote checks remain unexecuted; CI configuration is not evidence of their success.

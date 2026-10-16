@@ -137,3 +137,19 @@ test('search loading, result filters, empty and retry states have visible feedba
   await expect(page.getByRole('button', { name: 'Retry search' })).toBeVisible();
   await page.screenshot({ path: resolve(directory, 'search-error.png') });
 });
+
+test('saved pipeline and prior analysis remain readable with the provider unavailable', async ({
+  page,
+  request
+}) => {
+  await request.post('http://127.0.0.1:3101/test-state', { data: { mode: 'unavailable' } });
+  await page.goto('/pipeline');
+  await page
+    .getByRole('link', { name: 'Synthetic fixture: fix CSV parser escaping', exact: true })
+    .click();
+  await expect(
+    page.getByText('Synthetic analysis: fix quoted CSV parsing and add tests.')
+  ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Analyze again', exact: true })).toBeDisabled();
+  await expect(page.getByText('AI is disabled.', { exact: false })).toBeVisible();
+});

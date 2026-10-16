@@ -47,9 +47,9 @@ export default async function Overview() {
             icon: Bookmark
           },
           {
-            label: 'Reward claims',
+            label: 'Claims without conflicts',
             value: overview.claims,
-            description: 'Claims found · funds unverified',
+            description: 'Scanned evidence · funds unverified',
             icon: Flag
           }
         ].map(({ label, value, description, icon: Icon }) => (
